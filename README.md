@@ -1,23 +1,30 @@
-A simple C functions extention with the standard headers on-board and extra functions, including:
+🔧 C Functions Extension Library
+A simple C library providing extended utility functions, built on top of standard headers. Includes easy-to-use memory allocation, URL launching, web server setup, and file operations — all in a lightweight DLL for use in MinGW-based Windows projects.
+
+📦 Included Functions
+c
+Copy
+Edit
 void error(char *msg);
-
 void open_url(char *url);
-
 void open_file(char *filename);
-
 void *xmalloc(size_t size);
-
 void urlreq();
-
 void create_web_server(int port);
-
 void send_host_message(SOCKET client_fd);
-and their definitions:
+🧠 Function Implementations
+error()
+c
+Copy
+Edit
 void error(char *msg) {
     fprintf(stderr, "Error: %s\n", msg);
-    exit (1);
+    exit(1);
 }
-
+xmalloc()
+c
+Copy
+Edit
 void *xmalloc(size_t size) {
     void *ptr = malloc(size);
     if (ptr == NULL) {
@@ -25,13 +32,14 @@ void *xmalloc(size_t size) {
     }
     return ptr;
 }
-
+open_url()
+c
+Copy
+Edit
 void open_url(char *url) {
-    // Remove newline if present
     size_t len = strlen(url);
     if (len > 0 && url[len - 1] == '\n') url[len - 1] = '\0';
 
-    // Prepend "https://" if missing
     char full_url[300];
     if (strncmp(url, "http://", 7) != 0 && strncmp(url, "https://", 8) != 0) {
         snprintf(full_url, sizeof(full_url), "https://%s", url);
@@ -53,7 +61,10 @@ void open_url(char *url) {
     system(cmd);
 #endif
 }
-
+urlreq()
+c
+Copy
+Edit
 void urlreq(){
     char url[256];
     printf("Enter a URL to open: ");
@@ -62,7 +73,10 @@ void urlreq(){
     }
     open_url(url);
 }
-
+create_web_server()
+c
+Copy
+Edit
 void create_web_server(int port) {
     WSADATA wsa;
     SOCKET server_fd, client_fd;
@@ -128,31 +142,39 @@ void create_web_server(int port) {
     closesocket(server_fd);
     WSACleanup();
 }
-
+send_host_message()
+c
+Copy
+Edit
 void send_host_message(SOCKET client_fd) {
     char msg[1024];
     printf("Enter message to send to client: ");
     if (fgets(msg, sizeof(msg), stdin) != NULL) {
-        // Remove newline if present
         size_t len = strlen(msg);
         if (len > 0 && msg[len - 1] == '\n') msg[len - 1] = '\0';
         send(client_fd, msg, (int)strlen(msg), 0);
     }
 }
-
+open_file()
+c
+Copy
+Edit
 void open_file(char *filename) {
     char rorw[2];
     printf("Read or write to file (r/w)?: %s\n", filename);
     scanf("%1s", rorw);
     getchar(); // consume leftover newline
+
     if (rorw[0] != 'r' && rorw[0] != 'w') {
         error("Invalid option, please enter 'r' or 'w'");
     }
+
     if (rorw[0] == 'r') {
         FILE *f1 = fopen(filename, "r");
         if (f1 == NULL) {
             error("Failed to open file for reading");
         }
+
         printf("Reading from file: %s\n", filename);
         char line[256];
         while (fgets(line, sizeof(line), f1) != NULL) {
@@ -165,15 +187,36 @@ void open_file(char *filename) {
         if (f1 == NULL) {
             error("Failed to open file for writing");
         }
+
         printf("What do you want to write to the file?: %s\n", filename);
         char line[256];
         while (fgets(line, sizeof(line), stdin) != NULL) {
-            if (strcmp(line, "exit\n") == 0) break; // Exit on 'exit'
+            if (strcmp(line, "exit\n") == 0) break;
             fputs(line, f1);
         }
         fclose(f1);
     }
 }
-Compile with (MinGW only):
+🛠️ Compilation
+🧪 Note: This is for Windows using MinGW.
+
+To compile an executable using this library:
+
+bash
+Copy
+Edit
 gcc main.c -L. -lfunct -o example.exe
-Make sure you are in the directory with the .a and the .dll file before you run this.
+Make sure you have funct.dll and libfunct.a in the same directory.
+
+Place functions.h where your main.c can include it.
+
+📁 Example Directory Layout
+bash
+Copy
+Edit
+/project-folder
+├── main.c
+├── functions.h
+├── funct.dll
+├── libfunct.a
+├── example.exe
