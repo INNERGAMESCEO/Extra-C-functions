@@ -7,22 +7,22 @@ Includes easy-to-use memory allocation, URL launching, web server setup, and fil
 
 ## 📦 Included Functions
 
-void error(char *msg);
+**void error(char** ***msg);**
 
-void open_url(char *url);
+**void open_url(char** ***url);**
 
-void open_file(char *filename);
+**void open_file(char** ***filename);**
 
-void *xmalloc(size_t size);
+**void** *****xmalloc(size_t size);****
 
-void urlreq();
+**void urlreq();**
 
-void create_web_server(int port);
+**void create_web_server(int port);**
 
-void send_host_message(SOCKET client_fd);
+**void send_host_message(SOCKET client_fd);**
 
 ---
-Function Implimentation is in the functions.c file
+# Function Implimentation is in the functions.c file.
 
 ## 🛠️ Compilation
 
@@ -36,8 +36,12 @@ gcc main.c -L. -lfunct -o example.exe
 ## 📁 Example Directory Layout
 
 /project-folder
-├── main.c
+
+├── main.c   
+
 ├── functions.h
+
 ├── funct.dll
+
 ├── libfunct.a
-├── example.exe
+
