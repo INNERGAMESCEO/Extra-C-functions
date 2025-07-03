@@ -1,0 +1,13 @@
+void error(char *msg);
+
+void open_url(char *url);
+
+void open_file(char *filename);
+
+void *xmalloc(size_t size);
+
+void urlreq();
+
+void create_web_server(int port);
+
+void send_host_message(SOCKET client_fd);

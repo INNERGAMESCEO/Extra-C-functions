@@ -1,0 +1,9 @@
+LIBRARY funct.dll
+EXPORTS
+    error
+    open_url
+    open_file
+    xmalloc
+    urlreq
+    create_web_server
+    send_host_message
